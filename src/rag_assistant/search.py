@@ -32,6 +32,37 @@ def expand_context(chunks, best_indices):
         )
     )
 
+def retrieve_chunks(question, chunks, embeddings, model, top_k=5):
+    question_embedding = model.encode(
+        question,
+        normalize_embeddings=True
+    )
+
+    scores = embeddings @ question_embedding
+
+    best_indices = np.argsort(scores)[::-1][:top_k]
+
+    context_indices = expand_context(chunks, best_indices)
+
+    return [
+        chunks[index]
+        for index in context_indices
+    ]
+
+def build_context(retrieved_chunks):
+    context_parts = []
+
+    for chunk in retrieved_chunks:
+        part = f"""
+        Source : {chunk['title']}
+        URL : {chunk['url']}
+
+        {chunk['text']}
+        """
+        context_parts.append(part)
+
+    return "\n---\n".join(context_parts)
+
 def main():
     # Charger les chunks
     chunks = []
@@ -59,8 +90,8 @@ def main():
     # Calculer les similarités
     scores = embeddings @ question_embedding
 
-    # Récupérer les 3 meilleurs résultats
-    top_k = 10
+    # Récupérer les 5 meilleurs résultats
+    top_k = 5
     best_indices = np.argsort(scores)[::-1][:top_k]
 
     context_indices = expand_context(chunks, best_indices)
@@ -68,7 +99,12 @@ def main():
 
     print(f"\nMeilleurs résultats : {top_k}")
     print(f"Chunks affichés avec contexte : {len(context_indices)}")
+    retrieved_chunks = retrieve_chunks(
+    question, chunks, embeddings, model)
 
+    context = build_context(retrieved_chunks)
+
+    print(context)
     for index in context_indices:
         chunk = chunks[index]
 
