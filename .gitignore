@@ -1,0 +1,5 @@
+.venv
+.venv-old
+data
+documents
+extract.py
