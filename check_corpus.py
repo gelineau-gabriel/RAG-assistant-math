@@ -28,7 +28,7 @@ def check_corpus():
 
     # 1. Nombre d'articles
     print(f"Nombre d'articles : {len(articles)}")
-    if len(articles) == 20:
+    if len(articles) == 101:
         print("OK : nombre attendu.")
     else:
         print("ATTENTION : nombre différent de 20.")
