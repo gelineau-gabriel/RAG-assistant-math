@@ -25,12 +25,6 @@ async def main():
 
             tools = await session.list_tools()
             print("Outils disponibles :", tools)
-
-            result = await session.call_tool(
-                "addition",
-                arguments={"a": 5, "b": 3},
-            )
-            print("Résultat :", result)
             
             result = await session.call_tool(
             "ask_rag",
@@ -40,7 +34,7 @@ async def main():
             )
 
             print("Réponse du RAG :")
-            print(result)
+            print(result.structured_content["result"])
 
 
 if __name__ == "__main__":

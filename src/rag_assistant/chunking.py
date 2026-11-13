@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from .config import WIKIPEDIA_PATH, CHUNKS_PATH
 
 def split_text(text, chunk_size=500, overlap=100):
     if overlap >= chunk_size:
@@ -36,8 +37,8 @@ def create_chunks(article, chunk_size=500, overlap=100):
     ]
 
 def main():
-    input_path = Path("data/wikipedia_math.jsonl").expanduser()
-    output_path = Path("data/math_chunks.jsonl").expanduser()
+    input_path = WIKIPEDIA_PATH
+    output_path = CHUNKS_PATH
 
     all_chunks = []
 
@@ -50,7 +51,7 @@ def main():
         for chunk in all_chunks:
             file.write(json.dumps(chunk, ensure_ascii=False) + "\n")
 
-    print(f"Articles traités : 20")
+    print(f"Articles traités : 101")
     print(f"Chunks créés : {len(all_chunks)}")
     print(f"Fichier enregistré : {output_path}")
 

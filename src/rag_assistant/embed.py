@@ -2,11 +2,11 @@ import json
 import numpy as np
 from pathlib import Path
 from sentence_transformers import SentenceTransformer
-
+from .config import EMBEDDINGS_PATH, CHUNKS_PATH
 
 def main():
-    input_path = Path("data/math_chunks.jsonl")
-    output_path = Path("data/math_embeddings.npy")
+    input_path = CHUNKS_PATH
+    output_path = EMBEDDINGS_PATH
 
     # Charger les chunks
     chunks = []
